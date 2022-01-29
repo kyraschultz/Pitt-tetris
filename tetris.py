@@ -18,7 +18,7 @@ cathyB2 = pygame.image.load('images/cathyb2fix.png')
 cathyB3 = pygame.image.load('images/cathyb3fix.png')
 cathyB4 = pygame.image.load('images/cathyb4fix.png')
 cathyB5 = pygame.image.load('images/cathyb5fix.png')
-
+cathyX = 100
 #variables for moving each block
 
 
@@ -27,20 +27,20 @@ hillmanB1 = pygame.image.load('images/hillmanb1fix.png')
 hillmanB2 = pygame.image.load('images/hillmanb2fix.png')
 hillmanB3 = pygame.image.load('images/hillmanb3fix.png')
 hillmanB4 = pygame.image.load('images/hillmanb4fix.png')
-
+hillmanX = 100
 
 #block3 = posvar
 posvarB1 = pygame.image.load('images/posvarb1fix.png')
 posvarB2 = pygame.image.load('images/posvarb2fix.png')
 posvarB3 = pygame.image.load('images/posvarb3fix.png')
 posvarB4 = pygame.image.load('images/posvarb4fix.png')
-
+posvarX = 100
 #block4 = wpu
 wpuB1 = pygame.image.load('images/wpub1fix.png')
 wpuB2 = pygame.image.load('images/wpub2fix.png')
 wpuB3 = pygame.image.load('images/wpub3fix.png')
 wpuB4 = pygame.image.load('images/wpub4fix.png')
-
+wpuX  = 100
 #block5 = benedum
 benB1 = pygame.image.load('images/benedumb1fix.png')
 benB2 = pygame.image.load('images/benedumb2fix.png')
@@ -48,12 +48,12 @@ benB3 = pygame.image.load('images/benedumb3fix.png')
 benB4 = pygame.image.load('images/benedumb4fix.png')
 benB5 = pygame.image.load('images/benedumb5fix.png')
 benB6 = pygame.image.load('images/benedumb6fix.png')
+benX = 100
 
 
-blockX = 100
 blockY = 75
 blockXChange = 0
-blockYChange = 1
+blockYChange = 5
 #score
 score = 0
 font = pygame.font.Font('freesansbold.ttf', 32)
@@ -124,31 +124,48 @@ while running:
 			exit()
 		if event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_UP:
-				blockYChange = 1
+				blockYChange = 5
 			if event.key == pygame.K_DOWN:
-				blockYChange = 3
+				blockYChange = 35
 			if event.key == pygame.K_LEFT:
-				blockXChange = -1
+				blockXChange = -25
 			if event.key == pygame.K_RIGHT:
-				blockXChange = 1
+				blockXChange = 25
 
 		if event.type == pygame.KEYUP:
 			if event.key == pygame.K_UP or pygame.K_DOWN or pygame.K_LEFT or pygame.K_RIGHT:
 				blockXChange = 0
-				blockYChange = 1
+				blockYChange = 5
 	if blockY == 575:
 		blockXChange = 0
-	blockX += blockXChange
+	cathyX += blockXChange
+	hillmanX += blockXChange
+	posvarX += blockXChange
+	wpuX += blockXChange
+	benX += blockXChange
 	blockY += blockYChange
-	if blockX >= 450:
-		blockX = 450
-	if blockX <= 100:
-		blockX = 100
+	if cathyX >= 450:
+		cathyX = 450
+	if cathyX <= 100 or hillmanX <= 100 or posvarX <= 125 or wpuX <= 100 or benX <= 100:
+		cathyX = 100
+		hillmanX = 100
+		posvarX = 125
+		wpuX = 100
+		benX = 100
+	if hillmanX >= 425:
+		hillmanX = 425
+	if posvarX >= 475:
+		posvarX = 475
+	if wpuX >= 475:
+		wpuX = 475
+	if benX >= 425:
+		benX = 425
 	if blockY >= 575:
 		blockY = 575
-	cathy(blockX, blockY)
+	benedum(benX, blockY)
 
 
 
 
 	pygame.display.update()
+	pygame.time.delay(100)
