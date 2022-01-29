@@ -60,59 +60,111 @@ font = pygame.font.Font('freesansbold.ttf', 32)
 textX = 10
 textY = 10
 
+#game board
+blockStop = False
+r,c = 14,24
+game_board = [[0 for x in range(r)]for y in range(c)] #24 x 14
+x = 100
+y =0
+print(game_board)
+#for c in range (14):
+
+#	for r in range(24):
+#		element[c][r] = [x,y]
+#		print(element + " |")
+#		y += 25
+#	x += 25
+#	y = 0
+
+for r in range(24):
+	for c in range(14):
+		game_board[r][c] = [x,y]
+		print(game_board[r][c])
+		x += 25
+	y+= 25
+	x = 100
+
 ##FUNCTIONS
 def cathy(x,y):
-
+	cathyArr = [(x,y)]
 	screen.blit(cathyB1, (x,y))
 	x=x+25
+	cathyArr.append((x,y))
 	screen.blit(cathyB2, (x, y))
 	cWidth = cathyB2.get_width()
 	x = x+25
+	cathyArr.append((x,y))
 	screen.blit(cathyB3, (x,y))
 	x = x-25
 	y = y-25
+	cathyArr.append((x,y))
 	screen.blit(cathyB4, (x,y))
 	y = y-25
+	cathyArr.append((x,y))
 	screen.blit(cathyB5, (x,y))
+	return cathyArr
 
 def hillman(x,y):
+	hillmanArr = [(x,y)]
 	screen.blit(hillmanB1, (x,y))
 	x = x+25
+	hillmanArr.append((x,y))
 	screen.blit(hillmanB2, (x,y))
 	x= x+25
+	hillmanArr.append((x,y))
 	screen.blit(hillmanB3, (x,y))
 	x = x+25
+	hillmanArr.append((x,y))
 	screen.blit(hillmanB4, (x,y))
+	return hillmanArr
 
 def posvar(x,y):
+	posvarArr = [(x,y)]
 	screen.blit(posvarB4, (x,y))
 	y = y-25
+	posvarArr.append((x,y))
 	screen.blit(posvarB2, (x,y))
 	x = x+25
+	posvarArr.append((x,y))
 	screen.blit(posvarB3, (x,y))
 	x = x-50
+	posvarArr.append((x,y))
 	screen.blit(posvarB1, (x,y))
+	return posvarArr
+
 def wpu(x,y):
+	wpuArr = [(x,y)]
 	screen.blit(wpuB3, (x,y))
 	x = x+25
+	wpuArr.append((x,y))
 	screen.blit(wpuB4, (x,y))
 	y = y-25
+	wpuArr.append((x,y))
 	screen.blit(wpuB2, (x,y))
 	x = x-25
+	wpuArr.append((x,y))
 	screen.blit(wpuB1, (x,y))
+	return wpuArr
 
 def benedum(x,y):
+	benArr = [(x,y)]
 	screen.blit(benB1, (x,y))
 	x = x+25
+	benArr.append((x,y))
 	screen.blit(benB2, (x,y))
 	x = x+25
+	benArr.append((x,y))
 	screen.blit(benB3, (x,y))
 	x = x+25
+	benArr.append((x,y))
 	screen.blit(benB4, (x,y))
 	y = y-25
+	benArr.append((x,y))
 	screen.blit(benB6, (x,y))
 	x = x-25
+	benArr.append((x,y))
 	screen.blit(benB5, (x,y))
+	return benArr
 ##game loop
 running = True
 while running:
@@ -138,6 +190,7 @@ while running:
 				blockYChange = 5
 	if blockY == 575:
 		blockXChange = 0
+		blockStop = True
 	cathyX += blockXChange
 	hillmanX += blockXChange
 	posvarX += blockXChange
@@ -162,9 +215,24 @@ while running:
 		benX = 425
 	if blockY >= 575:
 		blockY = 575
-	benedum(benX, blockY)
+	blockCoords = wpu(wpuX, blockY)
+	sameX = False
+	sameY = False
 
-
+	if blockStop:
+		for block in blockCoords:
+			for r in range(24):
+				for c in range(14):
+					if game_board[r][c][0] == (block[0] -75):
+						sameX = True
+					if game_board[r][c][1] == block[1]:
+						sameY = True
+					if sameX and sameY:
+						game_board[r][c][0] = -1
+						game_board[r][c][1] = -1
+					sameX = False
+					sameY = False
+	print(game_board)
 
 
 	pygame.display.update()
